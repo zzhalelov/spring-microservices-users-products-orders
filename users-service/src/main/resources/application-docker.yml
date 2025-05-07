@@ -1,9 +1,9 @@
 server:
-  port: 8082
+  port: 8081
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/spring-microservices-users-products-orders
+    url: jdbc:postgresql://users-db:5432/users
     username: postgres
     password: postgres
   jpa:
