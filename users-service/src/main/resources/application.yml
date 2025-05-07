@@ -1,2 +1,10 @@
 server:
   port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/spring-microservices-users-products-orders
+    username: postgres
+    password: postgres
+  jpa:
+    generate-ddl: true

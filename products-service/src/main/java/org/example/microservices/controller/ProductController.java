@@ -1,40 +1,35 @@
 package org.example.microservices.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.example.microservices.model.Product;
+import org.example.microservices.repository.ProductRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
-    private final Map<Long, Product> products = new HashMap<>();
-    private long nextId;
+    private final ProductRepository productRepository;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Product create(@RequestBody Product product) {
-        product.setId(++nextId);
-        products.put(product.getId(), product);
+        productRepository.save(product);
         return product;
     }
 
     @GetMapping
     public List<Product> findAll() {
-        return new ArrayList<>(products.values());
+        return productRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public Product findById(@PathVariable long id) {
-        Product product = products.get(id);
-        if (product == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return product;
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 }
