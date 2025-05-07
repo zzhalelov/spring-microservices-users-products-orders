@@ -25,6 +25,7 @@
         <module>users-service</module>
         <module>products-service</module>
         <module>orders-service</module>
+        <module>gateway</module>
     </modules>
     <scm>
         <connection/>
