@@ -3,16 +3,16 @@ server:
 
 users:
   server:
-    url: http://users-service:8081
+    url: ${USERS_SERVER_URL}
 
 products:
   server:
-    url: http://products-service:8082
+    url: ${PRODUCTS_SERVER_URL}
 
 spring:
   datasource:
-    url: jdbc:postgresql://orders-db:5432/orders
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://${DB_HOST}:5432/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
   jpa:
     generate-ddl: true

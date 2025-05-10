@@ -8,48 +8,67 @@ services:
 
   users-service:
     build: users-service/.
-    ports:
-      - "8081:8081"
     depends_on:
       - users-db
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+      - DB_HOST=${USERS_DB_HOST}
+      - DB_NAME=${USERS_DB_NAME}
+      - DB_USER=${USERS_DB_USER}
+      - DB_PASSWORD=${USERS_DB_PASSWORD}
 
   products-service:
     build: products-service/.
-    ports:
-      - "8082:8082"
     depends_on:
       - products-db
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+      - DB_HOST=${PRODUCTS_DB_HOST}
+      - DB_NAME=${PRODUCTS_DB_NAME}
+      - DB_USER=${PRODUCTS_DB_USER}
+      - DB_PASSWORD=${PRODUCTS_DB_PASSWORD}
 
   orders-service:
     build: orders-service/.
-    ports:
-      - "8083:8083"
     depends_on:
       - orders-db
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+      - DB_HOST=${ORDERS_DB_HOST}
+      - DB_NAME=${ORDERS_DB_NAME}
+      - DB_USER=${ORDERS_DB_USER}
+      - DB_PASSWORD=${ORDERS_DB_PASSWORD}
+      - USERS_SERVER_URL=${USERS_SERVER_URL}
+      - PRODUCTS_SERVER_URL=${PRODUCTS_SERVER_URL}
 
   users-db:
     image: postgres:15-alpine
     environment:
-      - POSTGRES_DB=users
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=${USERS_DB_NAME}
+      - POSTGRES_USER=${USERS_DB_USER}
+      - POSTGRES_PASSWORD=${USERS_DB_PASSWORD}
+    volumes:
+      - users-db-data:/var/lib/postgresql/data
 
   products-db:
     image: postgres:15-alpine
     environment:
-      - POSTGRES_DB=products
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=${PRODUCTS_DB_NAME}
+      - POSTGRES_USER=${PRODUCTS_DB_USER}
+      - POSTGRES_PASSWORD=${PRODUCTS_DB_PASSWORD}
+    volumes:
+      - products-db-data:/var/lib/postgresql/data
 
   orders-db:
     image: postgres:15-alpine
     environment:
-      - POSTGRES_DB=orders
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=${ORDERS_DB_NAME}
+      - POSTGRES_USER=${ORDERS_DB_USER}
+      - POSTGRES_PASSWORD=${ORDERS_DB_PASSWORD}
+    volumes:
+      - orders-db-data:/var/lib/postgresql/data
+
+volumes:
+  users-db-data:
+  products-db-data:
+  orders-db-data:
